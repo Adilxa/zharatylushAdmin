@@ -8,7 +8,6 @@ function App() {
 
   const routes = useRoutes(isAuth);
 
-  console.log(isAuth);
 
   if (isLoading) {
     return <Preloader full />;

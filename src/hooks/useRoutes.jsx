@@ -8,6 +8,7 @@ import AddOrEditTransportPage from "../pages/ToursPage/AddOrEditTransportPage";
 import TourDetailPage from "../pages/ToursPage/TourDetailPage";
 import ToursPage from "../pages/ToursPage/ToursPage";
 import TransportDetailPage from "../pages/ToursPage/TransportDetailPage";
+import UsersPage from "../pages/UsersPage/UsersPage";
 
 const useRoutes = (isAuth) => {
   if (!isAuth) {
@@ -28,6 +29,8 @@ const useRoutes = (isAuth) => {
         <Routes>
           <Route path="/" element={<ToursPage />} />
           <Route path="/tour/create" element={<AddOrEditTourPage />} />
+          <Route path="/users" element={<UsersPage/>}/>
+          {/* <Route path="/user/:id" element={}/> */}
           <Route path="/tour/:id" element={<TourDetailPage />} />
           <Route path="/transport/:id" element={<TransportDetailPage />} />
           <Route path="/transport/create/:tourId" element={<AddOrEditTransportPage />} />

@@ -21,8 +21,8 @@ const links = [
     Icon: CommuteIcon,
   },
   {
-    path: "/transport",
-    title: "Транспорты",
+    path: "/users",
+    title: "Пользлватели",
     Icon: DirectionsSubwayIcon,
   },
   {
