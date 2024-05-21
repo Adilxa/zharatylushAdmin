@@ -31,8 +31,8 @@ const links = [
     Icon: HandshakeIcon,
   },
   {
-    path: "/call",
-    title: "Колл центр",
+    path: "/tourapprove",
+    title: "Апрув туров",
     Icon: AddIcCallIcon,
   },
 ];

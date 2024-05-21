@@ -9,13 +9,14 @@ import TourDetailPage from "../pages/ToursPage/TourDetailPage";
 import ToursPage from "../pages/ToursPage/ToursPage";
 import TransportDetailPage from "../pages/ToursPage/TransportDetailPage";
 import UsersPage from "../pages/UsersPage/UsersPage";
+import TourApproove from "../pages/TourApproove";
 
 const useRoutes = (isAuth) => {
   if (!isAuth) {
     return (
       <Routes>
         <Route path="/" element={<LoginPage />} />
-        <Route path="*" element={<NotFound />}/>
+        <Route path="*" element={<NotFound />} />
       </Routes>
     );
   }
@@ -29,12 +30,13 @@ const useRoutes = (isAuth) => {
         <Routes>
           <Route path="/" element={<ToursPage />} />
           <Route path="/tour/create" element={<AddOrEditTourPage />} />
-          <Route path="/users" element={<UsersPage/>}/>
+          <Route path="/users" element={<UsersPage />} />
           {/* <Route path="/user/:id" element={}/> */}
           <Route path="/tour/:id" element={<TourDetailPage />} />
           <Route path="/transport/:id" element={<TransportDetailPage />} />
           <Route path="/transport/create/:tourId" element={<AddOrEditTransportPage />} />
           <Route path="/transport/edit/:tourId" element={<AddOrEditTransportPage />} />
+          <Route path="/tourapprove" element={<TourApproove />} />
         </Routes>
       </Grid>
     </Grid>
