@@ -14,30 +14,11 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { Link, useLocation } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 
-const links = [
-  {
-    path: "/",
-    title: "Туры",
-    Icon: CommuteIcon,
-  },
-  {
-    path: "/users",
-    title: "Пользлватели",
-    Icon: DirectionsSubwayIcon,
-  },
-  {
-    path: "/partners",
-    title: "Партнеры",
-    Icon: HandshakeIcon,
-  },
-  {
-    path: "/tourapprove",
-    title: "Апрув туров",
-    Icon: AddIcCallIcon,
-  },
-];
 
-function SideBar() {
+
+function SideBar(
+  {isGid}
+) {
   const location = useLocation();
 
   const { logout } = useAuth()
@@ -46,6 +27,33 @@ function SideBar() {
     logout()
     window.location.href = "/"
   }
+
+  const allLinks = [
+    {
+      path: "/",
+      title: "Туры",
+      Icon: CommuteIcon,
+    },
+   {
+      path: "/users",
+      title: "Пользлватели",
+      Icon: DirectionsSubwayIcon,
+    },
+  {
+      path: "/partners",
+      title: "Партнеры",
+      Icon: HandshakeIcon,
+    },
+    {
+      path: "/tourapprove",
+      title: "Апрув туров",
+      Icon: AddIcCallIcon,
+    },
+  ];
+
+  const links = isGid ? allLinks.filter(link => ["Туры", "Апрув туров"].includes(link.title)) : allLinks;
+
+
   return (
     <div className={css.wrapper}>
       <div className={css.logo}>Zharatulylush</div>

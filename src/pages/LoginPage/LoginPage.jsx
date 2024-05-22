@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import css from "./LoginPage.module.css";
-import { Button, Typography } from "@mui/material";
+import { Button, Typography, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { toast } from "react-toastify";
 import useAuth from "../../hooks/useAuth";
 
@@ -19,7 +19,6 @@ function LoginPage() {
     try {
       await login(e, p);
       successToast();
-
       window.location.href = "/";
     } catch (error) {
       errorToast();
@@ -37,6 +36,8 @@ function LoginPage() {
             id="outlined-basic"
             label="Email"
             variant="outlined"
+            fullWidth
+            margin="normal"
           />
           <TextField
             value={p}
@@ -45,8 +46,11 @@ function LoginPage() {
             label="Password"
             variant="outlined"
             type="password"
+            fullWidth
+            margin="normal"
           />
-          <Button type="submit" variant="contained" sx={{ height: 60 }}>
+    
+          <Button type="submit" variant="contained" sx={{ height: 60, marginTop: 2 }}>
             Войти
           </Button>
         </form>

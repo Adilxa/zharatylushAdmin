@@ -8,11 +8,32 @@ import TransportTable from "../../components/tables/TransportTable";
 import useTours from "../../hooks/useTours";
 import useTransports from "../../hooks/useTransports";
 import { TextField } from "@mui/material";
+import useAuth from "../../hooks/useAuth";
+import $api from "../../http/Api";
+import TourUserTable from "../../components/tables/TourUsersTable";
+
+
 function TourDetailPage() {
   const { id } = useParams();
   const { error, isLoading, getTourDetail, tourDetail } = useTours();
+  const { isGid } = useAuth()
   const [edit, setEdit] = useState(false)
+
+
+  const [tourUserList, setTourUserList] = useState();
+
   // const { getTransports, transports } = useTransports();
+
+  const GetUsersList = async () => {
+    const res = await $api.get("booked-tour")
+
+
+
+    setTourUserList(res.data)
+    return res.data
+  }
+
+  console.log(tourUserList);
 
   const onCLickEdit = () => {
     setEdit(true)
@@ -20,15 +41,17 @@ function TourDetailPage() {
 
   useEffect(() => {
     getTourDetail(id);
+    GetUsersList()
   }, [id]);
 
   // useEffect(() => {
   //   getTransports(id);
   // }, []);
 
-  // const renderTransports = useMemo(() =>
-  //   transports.map((el) => <TransportTable key={el.tid} {...el} />)
-  // );
+  const renderTransports = useMemo(() =>
+
+    tourUserList?.filter((el) => el.tour.id == id).map((el) => <TourUserTable key={el.tid} {...el.user} />)
+  );
 
   if (isLoading) return <Preloader full />;
   if (error) return <h1>{error}</h1>;
@@ -67,9 +90,11 @@ function TourDetailPage() {
               <TableCell>ФИО</TableCell>
               <TableCell>Заплатил</TableCell>
               <TableCell>Телефон</TableCell>
+              <TableCell></TableCell>
+
             </TableRow>
           }
-        // Body={renderTransports}
+          Body={renderTransports}
         />
       </div>
     </PageContainer>

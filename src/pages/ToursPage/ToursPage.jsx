@@ -5,23 +5,29 @@ import { TableRow, TableCell } from "@mui/material";
 import TourTable from "../../components/tables/TourTable";
 import useTours from "../../hooks/useTours";
 import Preloader from "../../components/preloader/Preloader";
+import useAuth from "../../hooks/useAuth";
 
 function ToursPage() {
   const { tours, getTours, isLoading } = useTours();
+  const { isGid, authData } = useAuth();
 
   useEffect(() => {
     getTours();
   }, [getTours]);
 
-  const renderList = useMemo(
-    () => tours.map((el) => <TourTable key={el.id} {...el} />),
-    [tours]
-  );
+  const renderList = useMemo(() => {
+    if (isGid) {
+      return tours
+        .filter((el) => el.user?.id === authData?.id)
+        .map((el) => <TourTable key={el.id} {...el} />);
+    }
+    return tours.map((el) => <TourTable key={el.id} {...el} />);
+  }, [tours, isGid, authData?.id]);
 
   if (isLoading) return <Preloader full />;
   return (
     <PageContainer
-      title="Туры"
+      title={`${isGid ? "Ваши" : ""} Туры`}
       pathToAdd="/tour/create"
       btnText={"+ Добавить тур"}
     >

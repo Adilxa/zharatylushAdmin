@@ -1,16 +1,31 @@
 // useAuth.js
 import { useEffect, useState } from "react";
 import $api from "../http/Api";
+import { useNavigate } from "react-router-dom";
 
 const useAuth = () => {
   const [isAuth, setAuth] = useState(false);
   const [authData, setAuthData] = useState(null);
   const [isLoading, setLoading] = useState(true);
+  const [isGid, setGid] = useState(false);
+
+  const navigate = useNavigate();
 
   const getUser = async (uid) => {
     try {
       const response = await $api.get(`/user/${uid}`);
       const userData = response.data;
+      console.log(userData);
+
+      if (userData.role === "gid") {
+        setGid(true);
+      } else if (userData.role === "user") {
+        // alert("Can't get access to admin panel");
+        // setLoading(false);
+        // window.location.href = "/404";
+        navigate("/404");
+      }
+
       return userData;
     } catch (error) {
       console.error("Error fetching user:", error);
@@ -20,7 +35,7 @@ const useAuth = () => {
 
   const logout = () => {
     localStorage.removeItem("adminKey");
-    setAuth(false); // Update isAuth state when logging out
+    setAuth(false);
   };
 
   const login = async (email, password) => {
@@ -28,10 +43,10 @@ const useAuth = () => {
       const res = await $api.post("user/auth", {
         email,
         password,
-        role: "admin",
       });
+
       localStorage.setItem("adminKey", res.data.id);
-      setAuth(true); // Update isAuth state after successful login
+      setAuth(true);
       return res.data;
     } catch (error) {
       console.error("Error logging in:", error);
@@ -67,7 +82,7 @@ const useAuth = () => {
     checkAuthState();
   }, []);
 
-  return { isAuth, authData, isLoading, login, logout }; // Provide login and logout functions
+  return { isAuth, isGid, authData, isLoading, login, logout };
 };
 
 export default useAuth;
