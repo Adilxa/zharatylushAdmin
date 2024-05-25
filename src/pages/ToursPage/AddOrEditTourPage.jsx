@@ -15,91 +15,71 @@ import useCities from "../../hooks/useCities";
 import useTours from "../../hooks/useTours";
 
 function AddOrEditTourPage() {
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
-  const [stops, setStops] = useState("");
-  const [duration, setDuration] = useState(0);
 
-  const [isSending, setSending] = useState(false);
+  const [isLoading, setLoading] = useState(false)
 
-  const [title, setTitle] = useState("Создать новый тур");
 
-  const { pathname } = useLocation();
-  const paths = pathname.split("/");
 
-  const { getCities, cities, isLoading, setLoading } = useCities();
-  const { addTour, error } = useTours();
+  const [title, setTitle] = useState('')
 
-  const navigate = useNavigate();
+  const [to, setTo] = useState("")
 
-  useEffect(() => {
-    getCities();
-  }, [getCities]);
+  const [numberOfpalce , setPalce] = useState(0)
 
-  useEffect(() => {
-    if (error) {
-      toast.error(error);
-    }
-  }, [error]);
+  const [price , setPrice] = useState(0)
 
-  useEffect(() => {
-    if (paths[2] === "create") {
-      setLoading(false);
-    } else if (paths[2] === "edit") {
-      setTimeout(() => {
-        // TODO: get tours data from firebase
-        setTitle("Тур: Бишкек-Каракол");
-      }, 2000);
-    }
-  }, [paths, setLoading]);
+  const [start , setStart] = useState('')
 
-  const submit = (e) => {
-    e.preventDefault();
-    if (isSending) return null;
-    setSending(true);
-    const f = cities.find((el) => el.id === from);
-    const t = cities.find((el) => el.id === to);
-    addTour({
-      name: f.label + "-" + t.label,
-      from: { id: f.id, label: f.label },
-      to: { id: t.id, label: t.label },
-      info: stops,
-      duration,
-    })
-      .finally(() => {
-        setSending(false);
-      })
-      .then(() => {
-        toast.success("Тур был успешно создан!");
-        navigate("/");
-      });
+  const [end , setEnd] = useState('')
+
+  const [desc , setDesc] = useState('')
+
+  const [img , setImage] = useState(null)
+
+
+  const toBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
   };
 
-  const renderCities = useMemo(
-    () =>
-      cities.map((city) => (
-        <MenuItem key={city.cid} value={city.id}>
-          {city.label}
-        </MenuItem>
-      )),
-    [cities]
-  );
+  const handleImageChange =async (e) => {
+    setImage(e.target.files[0]);
+    const res = await toBase64(img)
+    console.log(res);
+  };
+
+
+
+  // const renderCities = useMemo(
+  //   () =>
+  //     cities.map((city) => (
+  //       <MenuItem key={city.cid} value={city.id}>
+  //         {/* {city.label} */}
+  //       </MenuItem>
+  //     )),
+  //   [cities]
+  // );
 
   return (
-    <FormPageContainer isLoading={isLoading} title={title}>
+    <FormPageContainer
+      isLoading={isLoading}
+      title={"Создать тур"}>
       <FormContainer>
-        <form onSubmit={submit}>
+        <form >
           <div className="inputs">
             <FormControl>
-              <InputLabel>Откуда</InputLabel>
-              <Select
+              <TextField
                 required
-                value={from}
-                label="Откуда"
-                onChange={(e) => setFrom(e.target.value)}
+                value={title}
+                label="Название тура"
+                onChange={(e) => setTitle(e.target.value)}
               >
-                {renderCities}
-              </Select>
+                {/* {renderCities} */}
+              </TextField>
             </FormControl>
             <FormControl>
               <InputLabel>Куда</InputLabel>
@@ -109,24 +89,51 @@ function AddOrEditTourPage() {
                 onChange={(e) => setTo(e.target.value)}
                 required
               >
-                {renderCities}
+                {/* {renderCities} */}
               </Select>
             </FormControl>
             <TextField
-              value={stops}
-              onChange={(e) => setStops(e.target.value)}
-              label="Остановки"
-              variant="outlined"
               required
-            />
-            <TextField
-              required
-              value={duration}
-              onChange={(e) => setDuration(e.target.value)}
-              label="Длиткльность поездки"
+              value={numberOfpalce}
+              onChange={(e) => setPalce(e.target.value)}
+              label="Кол-во мест"
               variant="outlined"
               type="number"
             />
+            <TextField
+              required
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              label="Цена"
+              variant="outlined"
+              type="number"
+            />
+            <TextField
+              required
+              value={start}
+              onChange={(e) => setStart(e.target.value)}
+              label="Начало поездки"
+              variant="outlined"
+              type="number"
+            />
+            <TextField
+              required
+              value={end}
+              onChange={(e) => setEnd(e.target.value)}
+              label="Конец поездки"
+              variant="outlined"
+              type="number"
+            />
+            <TextField
+              required
+              value={desc}
+              onChange={(e) => setDesc(e.target.value)}
+              label="Описание"
+              variant="outlined"
+            />
+            <Button variant="outlined">Upload Image</Button>
+            <label htmlFor="image">Upload Image:</label>
+        <input type="file" id="image" onChange={handleImageChange} />
           </div>
           <Button type="submit" variant="contained">
             Сохранить

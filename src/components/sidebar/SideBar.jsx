@@ -49,6 +49,7 @@ function SideBar(
       title: "Апрув туров",
       Icon: AddIcCallIcon,
     },
+    
   ];
 
   const links = isGid ? allLinks.filter(link => ["Туры", "Апрув туров"].includes(link.title)) : allLinks;
