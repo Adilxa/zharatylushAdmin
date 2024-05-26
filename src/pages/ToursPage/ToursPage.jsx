@@ -39,6 +39,7 @@ function ToursPage() {
             <TableCell>Имя</TableCell>
             <TableCell>Локация</TableCell>
             <TableCell>Длительность</TableCell>
+            <TableCell>{!isGid ? "Подтверждено" : ""}</TableCell>
             <TableCell />
           </TableRow>
         }
