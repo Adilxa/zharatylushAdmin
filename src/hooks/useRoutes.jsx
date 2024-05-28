@@ -13,6 +13,8 @@ import UsersPage from "../pages/UsersPage/UsersPage";
 import TourApproove from "../pages/TourApproove";
 import UserPage from "../pages/UserPage/UserPage";
 import ErrorPage from "../pages/ErrorPage/index";
+import SightsPage from "../pages/Sights";
+import SightsCreate from "../pages/Sights/SightsCreate";
 
 const useRoutes = (isAuth, isGid) => {
   if (!isAuth) {
@@ -39,6 +41,9 @@ const useRoutes = (isAuth, isGid) => {
           <Route path="/users" element={<UsersPage />} />
           <Route path="/user/:id" element={<UserPage />} />
           <Route path="/tour/:id" element={<TourDetailPage />} />
+          <Route path="/sights" element={<SightsPage/>}/>
+          <Route path="/sights/create" element={<SightsCreate/>}/>
+
           
           <Route path="/transport/:id" element={<TransportDetailPage />} />
           <Route path="/transport/create/:tourId" element={<AddOrEditTransportPage />} />

@@ -21,6 +21,7 @@ function TourApproove() {
         getTours();
     }, [getTours]);
 
+
     const renderList = useMemo(() => {
         if (isGid) {
             return tours

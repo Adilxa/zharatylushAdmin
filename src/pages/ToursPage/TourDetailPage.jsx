@@ -51,13 +51,13 @@ function TourDetailPage() {
   const renderTransports = useMemo(() =>
 
     tourUserList?.filter((el) => el.tour.id == id).map((el) => <TourUserTable key={el.tid} {...el.user} />)
-  );
+  ,[]);
 
   if (isLoading) return <Preloader full />;
   if (error) return <h1>{error}</h1>;
   return (
     <PageContainer title={"Тур: " + tourDetail.title}>
-      <div style={{ position: "absolute", right: 0, top: 0 }}>
+      <div style={{ position: "absolute", right: "20px", top: "20px" }}>
         <Button variant="contained" onClick={() => onCLickEdit()}>
           Изменить тур
         </Button>

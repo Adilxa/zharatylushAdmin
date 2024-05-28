@@ -10,7 +10,7 @@ const TourTable = ({ title, startDate, endDate, isGid, isApprove, isApprovePage,
 
   const [approoved, setApprooved] = useState(isApprove)
 
-  console.log(isApprove);
+  console.log({...props, isApprove:true});
 
   const onDelete = async (e) => {
     e.stopPropagation();
@@ -24,16 +24,30 @@ const TourTable = ({ title, startDate, endDate, isGid, isApprove, isApprovePage,
   const notify = () => toast("Tour Approoved");
 
   const onApprove = async (e, id) => {
+    console.log(id);
     e.stopPropagation();
+  
     try {
-      await $api.patch(`/tour/${id}`, { isApprove: true });
+      const response = await fetch(`https://zharatylyshtravel-server-production.up.railway.app/api/tour/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ isApprove: true }),
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
       notify();
       setApprooved(!approoved);
     } catch (error) {
       console.error('Error approving the tour:', error);
+      toast.error("Failed to approve the tour. Please try again later.");
     }
   };
-
+  
 
   if (isGid) {
     return (

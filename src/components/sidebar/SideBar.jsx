@@ -40,8 +40,8 @@ function SideBar(
       Icon: DirectionsSubwayIcon,
     },
   {
-      path: "/partners",
-      title: "Партнеры",
+      path: "/sights",
+      title: "Достопримечательности",
       Icon: HandshakeIcon,
     },
     {
