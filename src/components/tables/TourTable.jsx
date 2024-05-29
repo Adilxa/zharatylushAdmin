@@ -10,7 +10,7 @@ const TourTable = ({ title, startDate, endDate, isGid, isApprove, isApprovePage,
 
   const [approoved, setApprooved] = useState(isApprove)
 
-  console.log({...props, isApprove:true});
+  console.log({...props});
 
   const onDelete = async (e) => {
     e.stopPropagation();
@@ -28,15 +28,13 @@ const TourTable = ({ title, startDate, endDate, isGid, isApprove, isApprovePage,
     e.stopPropagation();
   
     try {
-      const response = await fetch(`https://zharatylyshtravel-server-production.up.railway.app/api/tour/${id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ isApprove: true }),
-      });
+      const response = await $api.put(`tour/${id}`, {
+      ...props,  
+      isApprove: true
+      }
+      );
   
-      if (!response.ok) {
+      if (response.status !== 200) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
   
