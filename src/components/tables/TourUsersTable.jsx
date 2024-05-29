@@ -6,6 +6,9 @@ import $api from "../../http/Api";
 
 const TourUserTable = ({ email, startDate, endDate, ...props }) => {
 
+
+
+  console.log(props);
   const onDelete = async (e) => {
     e.stopPropagation();
     const res = window?.confirm("Вы действительно хотите " + email + '?');

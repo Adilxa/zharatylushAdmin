@@ -26,12 +26,12 @@ const useRoutes = (isAuth, isGid) => {
     );
   }
 
-  
+
 
   return (
     <Grid container spacing={5}>
       <Grid item lg={2.5} md={2}>
-        <SideBar isGid={isGid}/>
+        <SideBar isGid={isGid} />
       </Grid>
       <Grid item lg={9.5} md={10}>
         <Routes>
@@ -41,10 +41,10 @@ const useRoutes = (isAuth, isGid) => {
           <Route path="/users" element={<UsersPage />} />
           <Route path="/user/:id" element={<UserPage />} />
           <Route path="/tour/:id" element={<TourDetailPage />} />
-          <Route path="/sights" element={<SightsPage/>}/>
-          <Route path="/sights/create" element={<SightsCreate/>}/>
+          <Route path="/sights" element={<SightsPage />} />
+          <Route path="/sights/create" element={<SightsCreate />} />
 
-          
+
           <Route path="/transport/:id" element={<TransportDetailPage />} />
           <Route path="/transport/create/:tourId" element={<AddOrEditTransportPage />} />
           <Route path="/transport/edit/:tourId" element={<AddOrEditTransportPage />} />

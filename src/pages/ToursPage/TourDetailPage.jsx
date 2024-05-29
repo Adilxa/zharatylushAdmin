@@ -1,12 +1,10 @@
 import { Box, Button, TableCell, TableRow, Typography } from "@mui/material";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import PageContainer from "../../components/containers/PageContainer";
 import Preloader from "../../components/preloader/Preloader";
 import TableContainer from "../../components/TableContainer/TableContainer";
-import TransportTable from "../../components/tables/TransportTable";
 import useTours from "../../hooks/useTours";
-import useTransports from "../../hooks/useTransports";
 import { TextField } from "@mui/material";
 import useAuth from "../../hooks/useAuth";
 import $api from "../../http/Api";
@@ -19,21 +17,26 @@ function TourDetailPage() {
   const { isGid } = useAuth()
   const [edit, setEdit] = useState(false)
 
+  const [gettingLoading, setGettingLoading] = useState([])
+
+
 
   const [tourUserList, setTourUserList] = useState();
 
   // const { getTransports, transports } = useTransports();
 
-  const GetUsersList = async () => {
-    const res = await $api.get("booked-tour")
+  const GetUsersList = useCallback(async () => {
 
+    try {
+      await $api.get("booked-tour")
+        .then((res) =>
+          setTourUserList(res?.data)
+        )
+    } catch (e) {
+      console.log(e);
+    }
 
-
-    setTourUserList(res.data)
-    return res.data
-  }
-
-  console.log(tourUserList);
+  }, [])
 
   const onCLickEdit = () => {
     setEdit(true)
@@ -41,17 +44,24 @@ function TourDetailPage() {
 
   useEffect(() => {
     getTourDetail(id);
-    GetUsersList()
   }, [id]);
+
+  useEffect(() => {
+    GetUsersList()
+  }, [])
+
+  console.log(tourUserList);
 
   // useEffect(() => {
   //   getTransports(id);
   // }, []);
 
-  const renderTransports = useMemo(() =>
+  //todo make paid or not 
 
+
+  const renderTransports = useMemo(() =>
     tourUserList?.filter((el) => el.tour.id == id).map((el) => <TourUserTable key={el.tid} {...el.user} />)
-  ,[]);
+    , [tourUserList]);
 
   if (isLoading) return <Preloader full />;
   if (error) return <h1>{error}</h1>;
