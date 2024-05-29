@@ -5,9 +5,12 @@ import {
   MenuItem,
   FormControl,
   InputLabel,
-  ImageListItem
+  ImageListItem,
+  OutlinedInput,
+  Chip,
+  Box
 } from "@mui/material";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import FormContainer from "../../components/containers/FormContainer";
@@ -65,6 +68,13 @@ function AddOrEditTourPage() {
 
   const [img, setImage] = useState(null)
 
+  const [sightsList, setSightsList] = useState([])
+
+
+  //for sights
+  const [personName, setPersonName] = useState([]);
+
+
 
   const toBase64 = (file) => {
     return new Promise((resolve, reject) => {
@@ -106,13 +116,16 @@ function AddOrEditTourPage() {
 
   const notify = () => toast("Tour saved succesfully!");
 
-  const onSave = async (e ,data) => {
+  const onSave = async (e, data) => {
     e.preventDefault()
     try {
-      await $api.post("tour", data).then(() => {
-        notify()
-      })
-    }catch (e) {
+      const res = await $api.post("tour", data)
+        .then(async () => {
+          await $api.patch("tour" + res.data.id, { sights: personName })
+          notify()
+        })
+
+    } catch (e) {
       console.log(e);
     }
   }
@@ -127,12 +140,42 @@ function AddOrEditTourPage() {
     [popularPlacesIssykKul]
   );
 
+  const getSights = async () => {
+    try {
+      const res = await $api.get("sights")
+      setSightsList(res.data)
+    } catch (e) {
+      console.log("Something went wrong");
+    }
+  }
+
+
+  const handleChange = (event) => {
+    const { target: { value } } = event;
+
+    const newItems = typeof value === 'string' ? value.split(',') : value;
+
+    const newUniqueItems = newItems.filter(newItem =>
+      !personName.some(existingItem => existingItem.id === newItem.id)
+    );
+
+    setPersonName([...personName, ...newUniqueItems]);
+  };
+
+
+  useEffect(() => {
+    getSights()
+  }, [])
+
+  console.log(personName);
+
+
   return (
     <FormPageContainer
       isLoading={isLoading}
       title={"Создать тур"}>
       <FormContainer>
-        <form onSubmit={(e) => onSave(e , data)}>
+        <form onSubmit={(e) => onSave(e, data)}>
           <div className="inputs">
             <FormControl>
               <TextField
@@ -198,6 +241,34 @@ function AddOrEditTourPage() {
               fullWidth
               variant="outlined"
             />
+            <Select
+              labelId="demo-multiple-chip-label"
+              id="demo-multiple-chip"
+              multiple
+              value={personName}
+              onChange={(e) => handleChange(e)}
+              input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+              renderValue={(selected) => (
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                  {selected.map((value) => (
+                    <Chip key={value.id} label={value.title} />
+                  ))}
+                </Box>
+              )}
+
+            >
+              {sightsList.map((name) => (
+                <MenuItem
+                  key={name.id}
+                  value={{ title: name.title, id: name.id }}
+
+                >
+                  {name.title}
+                </MenuItem>
+              ))}
+            </Select>
+
+
             <ImageListItem key={img}>
               <img
                 src={`${img}`}
@@ -219,8 +290,6 @@ function AddOrEditTourPage() {
                 Upload Image
               </Button>
             </label>
-
-
           </div>
           <Button type="submit" variant="contained">
             Сохранить
