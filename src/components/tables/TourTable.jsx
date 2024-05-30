@@ -10,8 +10,6 @@ const TourTable = ({ title, startDate, endDate, isGid, isApprove, isApprovePage,
 
   const [approoved, setApprooved] = useState(isApprove)
 
-  console.log({...props});
-
   const onDelete = async (e) => {
     e.stopPropagation();
     const res = window?.confirm("Вы действительно хотите удалить тур " + title + '?');

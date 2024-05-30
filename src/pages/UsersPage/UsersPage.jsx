@@ -31,8 +31,6 @@ const UsersPage = () => {
                 <UserTable key={el.createDate + i} title={el.email} {...el}/>
             ));
         }
-    
-        
     }, [userData]);
 
     if(isLoading) return <Preloader full={true}/>
@@ -43,8 +41,12 @@ const UsersPage = () => {
             <TableCell>ID</TableCell>
             <TableCell>Email</TableCell>
             <TableCell>Дата Создания</TableCell>
-            <TableCell>Город</TableCell>
             <TableCell>Роль</TableCell>
+            <TableCell>Админ</TableCell>
+            <TableCell>Гид</TableCell>
+            <TableCell>Юзер</TableCell>
+
+
             <TableCell />
           </TableRow>
         }

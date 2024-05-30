@@ -116,19 +116,32 @@ function AddOrEditTourPage() {
 
   const notify = () => toast("Tour saved succesfully!");
 
-  const onSave = async (e, data) => {
-    e.preventDefault()
+  const onSave = async (e, data, personName) => {
+    e.preventDefault();
     try {
       const res = await $api.post("tour", data)
-        .then(async () => {
-          await $api.patch("tour" + res.data.id, { sights: personName })
-          notify()
+
+      notify();
+
+      await $api.put(`/tour/${res.data.id}`, { ...data, sights: personName })
+
+        .finally(() => {
+          setTitle("");
+          setStart("");
+          setEnd("")
+          setPrice(0)
+          setImage(null)
+          setTo("")
+          setDesc("")
+          setPersonName([])
+          setPalce(0)
         })
 
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
-  }
+  };
+
 
   const renderCities = useMemo(
     () =>
@@ -175,7 +188,7 @@ function AddOrEditTourPage() {
       isLoading={isLoading}
       title={"Создать тур"}>
       <FormContainer>
-        <form onSubmit={(e) => onSave(e, data)}>
+        <form onSubmit={(e) => onSave(e, data, personName)}>
           <div className="inputs">
             <FormControl>
               <TextField
@@ -260,8 +273,7 @@ function AddOrEditTourPage() {
               {sightsList.map((name) => (
                 <MenuItem
                   key={name.id}
-                  value={{ title: name.title, id: name.id }}
-
+                  value={{ ...name }}
                 >
                   {name.title}
                 </MenuItem>
