@@ -44,7 +44,6 @@ const TourTable = ({ title, startDate, endDate, isGid, isApprove, isApprovePage,
     }
   };
   
-
   if (isGid) {
     return (
       <TableCellContainer path={`/tour/${props.id}`}>
@@ -55,11 +54,12 @@ const TourTable = ({ title, startDate, endDate, isGid, isApprove, isApprovePage,
         <TableCell scope="row">{title}</TableCell>
         <TableCell scope="row">{props.location}</TableCell>
         <TableCell scope="row">{startDate} - {endDate}</TableCell>
+        <TableCell scope="row"></TableCell>
         <TableCell scope="row">
           {/* <IconButton onClick={onDelete}>
             <DeleteIcon />
           </IconButton> */}
-          {!props.isApprove ? `Not Approved` : `Approved`}
+          {!approoved ? `Not Approved` : `Approved`}
         </TableCell>
       </TableCellContainer>
     );

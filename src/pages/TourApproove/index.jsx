@@ -5,35 +5,30 @@ import useAuth from '../../hooks/useAuth';
 import useTours from '../../hooks/useTours';
 import TourTable from '../../components/tables/TourTable';
 import { TableCell, TableRow } from '@mui/material';
-
+import Preloader from '../../components/preloader/Preloader';
 
 function TourApproove() {
-
-    //do admin side 
-
-    //todo tour seeing is it approoved or not 
-
-
-    const { tours, getTours, isLoading } = useTours()
+    const { tours, isLoading, getTours } = useTours();
     const { isGid, authData } = useAuth();
 
     useEffect(() => {
-        getTours();
-    }, [getTours]);
-
+        getTours()
+    }, [])
 
     const renderList = useMemo(() => {
+
         if (isGid) {
             return tours
-                .filter((el) => el.user?.id == authData?.id && el.isApprove == false)
+                .filter((el) => el.user?.id == authData.id)
                 .map((el) => <TourTable key={el.id} isGid={isGid} {...el} />);
+        } else {
+            return tours.map((el) => (
+                <TourTable key={el.id} isApprove={el.isApprove} isApprovePage={true} {...el} />
+            ));
         }
-        else {
-            return tours
-            .map((el) => <TourTable key={el.id} isApprove={el.isApprove} isApprovePage={true} {...el} />);
-        } 
-    }, [tours, isGid, authData?.id]);
+    }, [tours]);
 
+    if (isLoading) return <Preloader full />;
     return (
         <PageContainer title="Одобрение тура">
             <TableContainer
@@ -51,7 +46,7 @@ function TourApproove() {
                 Body={renderList}
             />
         </PageContainer>
-    )
+    );
 }
 
-export default TourApproove
+export default TourApproove;

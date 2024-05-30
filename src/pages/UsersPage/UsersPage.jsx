@@ -9,15 +9,15 @@ import UserTable from "../../components/tables/Usertable";
 
 const UsersPage = () => {
 
-    const {isLoading , userData , getUsers} = useUsers()
+    const { isLoading, userData, getUsers } = useUsers()
 
     useEffect(() => {
         getUsers()
-    } , [])
+    }, [])
 
     const renderUsers = useMemo(() => {
 
-        if(userData) {
+        if (userData) {
             const sortedUserData = [...userData].sort((a, b) => {
                 if (a.role === 'admin' && b.role !== 'admin') {
                     return -1;
@@ -28,33 +28,33 @@ const UsersPage = () => {
                 return 0;
             });
             return sortedUserData.map((el, i) => (
-                <UserTable key={el.createDate + i} title={el.email} {...el}/>
+                <UserTable key={el.createDate + i} title={el.email} {...el} />
             ));
         }
     }, [userData]);
 
-    if(isLoading) return <Preloader full={true}/>
+    if (isLoading) return <Preloader full={true} />
     return (
-<PageContainer title="Пользователи">
-        <TableContainer Header={
-          <TableRow>
-            <TableCell>ID</TableCell>
-            <TableCell>Email</TableCell>
-            <TableCell>Дата Создания</TableCell>
-            <TableCell>Роль</TableCell>
-            <TableCell>Админ</TableCell>
-            <TableCell>Гид</TableCell>
-            <TableCell>Юзер</TableCell>
+        <PageContainer title="Пользователи">
+            <TableContainer Header={
+                <TableRow>
+                    <TableCell>ID</TableCell>
+                    <TableCell>Email</TableCell>
+                    <TableCell>Дата Создания</TableCell>
+                    <TableCell>Роль</TableCell>
+                    <TableCell>Админ</TableCell>
+                    <TableCell>Гид</TableCell>
+                    <TableCell>Юзер</TableCell>
 
 
-            <TableCell />
-          </TableRow>
-        }
-        Body={renderUsers}
-        >
-            
-        </TableContainer>
-</PageContainer>
+                    <TableCell />
+                </TableRow>
+            }
+                Body={renderUsers}
+            >
+
+            </TableContainer>
+        </PageContainer>
     )
 }
 

@@ -27,7 +27,7 @@ const useRoutes = (isAuth, isGid) => {
   }
 
 
-
+//sights for gid
   return (
     <Grid container spacing={5}>
       <Grid item lg={2.5} md={2}>

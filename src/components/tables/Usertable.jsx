@@ -16,6 +16,9 @@ const UserTable = ({ title, startDate, endDate, ...props }) => {
     const res = window?.confirm("Вы действительно хотите удалить тур " + title + '?');
     if (res) {
       await $api.delete("user/" + props.id)
+        .then(() => {
+          toast("Deleted successfully")
+        })
       window?.location?.reload()
     }
   };
@@ -87,3 +90,5 @@ const UserTable = ({ title, startDate, endDate, ...props }) => {
   );
 };
 export default UserTable;
+
+

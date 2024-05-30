@@ -1,8 +1,8 @@
-import { json, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import $api from "../../http/Api";
 import { useEffect, useState } from "react";
 import Preloader from "../../components/preloader/Preloader";
-import { Container, Typography, Grid, Paper, TextField, Button } from "@mui/material";
+import { Container, Typography, Grid, TextField, Button, Card, CardContent, CardActions, Box } from "@mui/material";
 
 function UserPage() {
     const [userData, setUserData] = useState(null);
@@ -14,16 +14,15 @@ function UserPage() {
         try {
             const res = await $api.get("user/" + params.id);
             setUserData(res.data);
-            setEditedData({ role: res.data.role }); // Initialize editedData with user role
+            setEditedData(res.data); // Initialize editedData with all user data
         } catch (error) {
             console.error("Error fetching user data:", error);
         }
     };
 
-
     useEffect(() => {
         getUser();
-    }, [params.id]); // Added params.id as a dependency to refetch if the id changes
+    }, [params.id]);
 
     const handleEdit = () => {
         setEditMode(true);
@@ -31,8 +30,8 @@ function UserPage() {
 
     const handleSave = async () => {
         try {
-            await $api.patch("/user/" + params.id, { role: editedData.role });
-            setUserData({ ...userData, role: editedData.role }); // Update userData with the edited role
+            await $api.put("/user/" + params.id, editedData);
+            setUserData(editedData); // Update userData with the edited data
             setEditMode(false);
         } catch (error) {
             console.error("Error saving user data:", error);
@@ -47,51 +46,55 @@ function UserPage() {
     if (!userData) return <Preloader full />;
 
     return (
-        <Container>
-            <Paper elevation={3} style={{ padding: 20, marginTop: 20 }}>
-                <Typography variant="h4" gutterBottom>
-                    User Details
-                </Typography>
-                <Grid container spacing={2}>
-                    {Object.entries(userData).map(([key, value]) => (
-                        <Grid item xs={12} key={key}>
-                            {editMode && key === 'role' ? (
-                                <TextField
-                                    fullWidth
-                                    label="Role"
-                                    name="role"
-                                    value={editedData.role || ''}
-                                    onChange={handleChange}
-                                />
-                            ) : (
-                                <Typography variant="subtitle1">
-                                    {key.charAt(0).toUpperCase() + key.slice(1)}: {value}
-                                </Typography>
-                            )}
-                        </Grid>
-                    ))}
+        <Container >
+            <Card elevation={2} style={{ padding: 20, marginTop: 20 }}>
+                <CardContent>
+                    <Typography variant="h4" gutterBottom>
+                        {userData.email}
+                    </Typography>
+                    <Grid container spacing={2}>
+                        {Object.entries(userData).map(([key, value]) => (
+                            <Grid item xs={12} sm={6} key={key}>
+                                {editMode ? (
+                                    <TextField
+                                        fullWidth
+                                        label={key.charAt(0).toUpperCase() + key.slice(1)}
+                                        name={key}
+                                        value={editedData[key] || ''}
+                                        onChange={handleChange}
+                                        disabled={key === 'id' || key === 'createDate'} // Disable editing for id and createDate
+                                    />
+                                ) : (
+                                    <Box>
+                                        <Typography variant="subtitle1" color="textSecondary">
+                                            {key.charAt(0).toUpperCase() + key.slice(1)}:
+                                        </Typography>
+                                        <Typography variant="body1">
+                                            {value.toString()}
+                                        </Typography>
+                                    </Box>
+                                )}
+                            </Grid>
+                        ))}
+                    </Grid>
+                </CardContent>
+                <CardActions>
                     {editMode ? (
-                        <>
-                            <Grid item xs={12}>
-                                <Button variant="contained" color="primary" onClick={handleSave}>
-                                    Save
-                                </Button>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Button variant="contained" color="secondary" onClick={() => setEditMode(false)}>
-                                    Cancel
-                                </Button>
-                            </Grid>
-                        </>
-                    ) : (
-                        <Grid item xs={12}>
-                            <Button variant="contained" color="primary" onClick={handleEdit}>
-                                Edit
+                        <Box display="flex" justifyContent="space-between" width="100%">
+                            <Button variant="contained" color="primary" onClick={handleSave}>
+                                Save
                             </Button>
-                        </Grid>
+                            <Button variant="contained" color="secondary" onClick={() => setEditMode(false)}>
+                                Cancel
+                            </Button>
+                        </Box>
+                    ) : (
+                        <Button variant="contained" color="primary" onClick={handleEdit}>
+                            Edit
+                        </Button>
                     )}
-                </Grid>
-            </Paper>
+                </CardActions>
+            </Card>
         </Container>
     );
 }

@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import $api from "../http/Api";
 
 const useTours = () => {
@@ -36,6 +36,10 @@ const useTours = () => {
   //   const res = await updateDoc(ref, data);
   //   return res;
   // };
+
+  useEffect(() => {
+    getTours()
+  } , [])
 
   return {
     isLoading,

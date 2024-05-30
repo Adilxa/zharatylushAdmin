@@ -7,8 +7,6 @@ import $api from "../../http/Api";
 const TourUserTable = ({ email, startDate, endDate, ...props }) => {
 
 
-
-  console.log(props);
   const onDelete = async (e) => {
     e.stopPropagation();
     const res = window?.confirm("Вы действительно хотите " + email + '?');
@@ -26,7 +24,7 @@ const TourUserTable = ({ email, startDate, endDate, ...props }) => {
       </TableCell>
 
       <TableCell scope="row">{email}</TableCell>
-      <TableCell scope="row">{props.cardNumber}</TableCell>
+      <TableCell scope="row">{props?.country}</TableCell>
       <TableCell scope="row">{props.createDate}</TableCell>
       <TableCell scope="row">
         <IconButton onClick={onDelete}>
