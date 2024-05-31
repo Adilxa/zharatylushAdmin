@@ -35,7 +35,7 @@ const SightsCreate = () => {
     const notify = () => toast("Success")
     const badReq = () => toast("Something went wrong!")
 
-    const handleSubmit = async(e ) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const sightData = {
             title,
@@ -44,19 +44,19 @@ const SightsCreate = () => {
             description,
             tour: parseInt(tour),
         };
-        console.log({...sightData});
-        await $api.post("/sights" , {...sightData})
-        .then(() => {
-            notify()
-            setTitle("");
-            setImg("")
-            setImgList([])
-            setDescription("")
-            setTour("")
-        })
-        .catch(() => {
-            badReq()
-        }) 
+        console.log({ ...sightData });
+        await $api.post("/sights", { ...sightData })
+            .then(() => {
+                notify()
+                setTitle("");
+                setImg("")
+                setImgList([])
+                setDescription("")
+                setTour("")
+            })
+            .catch(() => {
+                badReq()
+            })
         // You can send sightData to your backend here
     };
 
@@ -82,7 +82,7 @@ const SightsCreate = () => {
         tours.map((el) => (
             <MenuItem key={el.id} value={el.id}>{el.title}</MenuItem>
         ))
-     ) , [tours])
+    ), [tours])
 
     ///
 
@@ -113,7 +113,7 @@ const SightsCreate = () => {
                                     placeholder='Tour'
                                     onChange={(e) => setTour(e.target.value)}
                                 >
-                                   {renderSelectTour}
+                                    {renderSelectTour}
                                 </Select>
                             </FormControl>
                         </Grid>

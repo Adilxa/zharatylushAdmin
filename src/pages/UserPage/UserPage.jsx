@@ -50,7 +50,7 @@ function UserPage() {
             <Card elevation={2} style={{ padding: 20, marginTop: 20 }}>
                 <CardContent>
                     <Typography variant="h4" gutterBottom>
-                        {userData.email}
+                        {userData?.email}
                     </Typography>
                     <Grid container spacing={2}>
                         {Object.entries(userData).map(([key, value]) => (

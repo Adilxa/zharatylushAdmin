@@ -16,8 +16,6 @@ function TourDetailPage() {
   const { isGid } = useAuth();
   const [edit, setEdit] = useState(false);
 
-  
-
   const [tourUserList, setTourUserList] = useState();
   const [editedTourDetail, setEditedTourDetail] = useState({
     title: '',

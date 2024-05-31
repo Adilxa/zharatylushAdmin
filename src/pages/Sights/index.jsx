@@ -39,11 +39,8 @@ function SightsPage() {
                     <TableRow>
                         <TableCell>Id</TableCell>
                         <TableCell>Title</TableCell>
-
-
-
+                        <TableCell>Tour title</TableCell>
                         <TableCell></TableCell>
-
 
                     </TableRow>
                 }
