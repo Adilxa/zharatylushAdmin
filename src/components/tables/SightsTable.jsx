@@ -11,7 +11,7 @@ const Sightstable = ({ ...props }) => {
 
   const onDelete = async (e) => {
     e.stopPropagation();
-    const res = window?.confirm("Вы действительно хотите удалить " + props.title + '?');
+    const res = window?.confirm("Вы действительно хотите удалить " + props?.title + '?');
     if (res) {
       await $api.delete("sights/" + props.id)
       notify()
@@ -26,11 +26,11 @@ const Sightstable = ({ ...props }) => {
   return (
     <TableCellContainer path={``}>
       <TableCell component="th" scope="row">
-        {props.id}
+        {props?.id}
       </TableCell>
 
-      <TableCell scope="row">{props.title}</TableCell>
-      <TableCell scope="row">{props.tour.title}</TableCell>
+      <TableCell scope="row">{props?.title}</TableCell>
+      <TableCell scope="row">{props?.tour?.title}</TableCell>
 
 
 

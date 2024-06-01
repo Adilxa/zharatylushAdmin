@@ -29,8 +29,8 @@ function ToursPage() {
   return (
     <PageContainer
       title={`${isGid ? "Ваши" : ""} Туры`}
-      pathToAdd="/tour/create"
-      btnText={"+ Добавить тур"}
+      pathToAdd={isGid && "/tour/create"}
+      btnText={!isGid ? "" : "+ Добавить тур"}
     >
       <TableContainer
         isLoading={isLoading}

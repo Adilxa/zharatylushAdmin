@@ -42,7 +42,7 @@ const SightsCreate = () => {
             img,
             imgList,
             description,
-            tour: parseInt(tour),
+            tour: tour !== "" ? parseInt(tour) : null,
         };
         console.log({ ...sightData });
         await $api.post("/sights", { ...sightData })
@@ -109,7 +109,6 @@ const SightsCreate = () => {
                                     id="demo-simple-select"
                                     value={tour}
                                     label="Tour"
-                                    required
                                     placeholder='Tour'
                                     onChange={(e) => setTour(e.target.value)}
                                 >
