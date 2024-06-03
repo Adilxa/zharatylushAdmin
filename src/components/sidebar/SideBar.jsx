@@ -17,7 +17,7 @@ import useAuth from "../../hooks/useAuth";
 
 
 function SideBar(
-  {isGid}
+  { isGid }
 ) {
   const location = useLocation();
 
@@ -34,12 +34,12 @@ function SideBar(
       title: "Туры",
       Icon: CommuteIcon,
     },
-   {
+    {
       path: "/users",
-      title: "Пользлватели",
+      title: "Пользователи",
       Icon: DirectionsSubwayIcon,
     },
-  {
+    {
       path: "/sights",
       title: "Достопримечательности",
       Icon: HandshakeIcon,
@@ -49,7 +49,7 @@ function SideBar(
       title: "Апрув туров",
       Icon: AddIcCallIcon,
     },
-    
+
   ];
 
   const links = isGid ? allLinks.filter(link => ["Туры", "Апрув туров"].includes(link.title)) : allLinks;

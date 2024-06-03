@@ -4,8 +4,9 @@ import TableCellContainer from "./TableCellContainer";
 import DeleteIcon from "@mui/icons-material/Delete";
 import $api from "../../http/Api";
 
-const TourUserTable = ({ email, startDate, endDate,amount, ...props }) => {
+const TourUserTable = ({ email, startDate, endDate, amount, ...props }) => {
 
+  console.log(props);
 
   const onDelete = async (e) => {
     e.stopPropagation();
@@ -16,7 +17,6 @@ const TourUserTable = ({ email, startDate, endDate,amount, ...props }) => {
     }
   };
 
-  console.log(props);
 
   return (
     <TableCellContainer path={`/tour/${props.id}`}>
@@ -26,7 +26,8 @@ const TourUserTable = ({ email, startDate, endDate,amount, ...props }) => {
 
       <TableCell scope="row">{email}</TableCell>
       <TableCell scope="row">{props?.country}</TableCell>
-      <TableCell scope="row" align="left" style={{paddingLeft:"50px"}}>{amount}</TableCell>
+      <TableCell scope="row" align="left" style={{ paddingLeft: "50px" }}>{amount}</TableCell>
+      <TableCell scope="row" align="left" style={{ paddingLeft: "70px" }}>{props?.payments?.price}</TableCell>
       <TableCell scope="row">
         <IconButton onClick={onDelete}>
           <DeleteIcon />

@@ -19,7 +19,6 @@ function TourDetailPage() {
   const { isGid } = useAuth();
   const [edit, setEdit] = useState(false);
 
-  console.log(tourDetail);
 
   const [tourUserList, setTourUserList] = useState();
   const [editedTourDetail, setEditedTourDetail] = useState({
@@ -30,6 +29,9 @@ function TourDetailPage() {
     isApprove: false,
     location: ''
   });
+
+  console.log(tourDetail);
+
 
   const GetUsersList = useCallback(async () => {
     try {
@@ -81,7 +83,7 @@ function TourDetailPage() {
 
   const renderTransports = useMemo(
     () =>
-      tourUserList?.filter((el) => el.tour.id == id).map((el) => <TourUserTable key={el.id} {...el.user} amount={el.amount} />),
+      tourUserList?.filter((el) => el.tour.id == id).map((el) => <TourUserTable key={el.id} {...el.user} {...el} amount={el.amount} />),
     [tourUserList]
   );
 
@@ -98,7 +100,7 @@ function TourDetailPage() {
   if (error) return <Typography variant="h6" color="error">{error}</Typography>;
 
   return (
-    <PageContainer sx={{position:"relative"}} title={"Тур: " + tourDetail?.title}>
+    <PageContainer sx={{ position: "relative" }} title={"Тур: " + tourDetail?.title}>
       <Box position="absolute" right="20px" top="20px">
         {edit ? (
           <>
@@ -235,6 +237,7 @@ function TourDetailPage() {
               <TableCell>ФИО</TableCell>
               <TableCell>Город</TableCell>
               <TableCell>Купил мест</TableCell>
+              <TableCell>Сделал покупку на</TableCell>
               <TableCell></TableCell>
             </TableRow>
           }
