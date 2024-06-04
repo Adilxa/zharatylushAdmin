@@ -3,10 +3,12 @@ import { Box, Grid, Typography, Table, TableBody, TableCell, TableContainer, Tab
 
 const TourReport = ({ tourDetail, tourUserList }) => {
 
+  console.log(tourUserList);
+
   if (tourUserList)
     return (
 
-      <Box sx={{position:"absolute" , right:"1000%"}} id="report-section" p={2} width={760}>
+      <Box sx={{ position: "absolute", right: "1000%" }} id="report-section" p={2} width={760}>
         <Grid container spacing={2}>
           <Grid item xs={12} container justifyContent="space-between" alignItems="center">
             <Typography variant="h5">Zharatylysh admin</Typography>
@@ -71,7 +73,7 @@ const TourReport = ({ tourDetail, tourUserList }) => {
                       <TableCell>{user?.user.country}</TableCell>
                       <TableCell>{user?.user.cardNumber}</TableCell>
                       <TableCell>{user?.amount}</TableCell>
-                      <TableCell>{user?.sum}сом</TableCell>
+                      <TableCell>{user?.payments.price}сом</TableCell>
                       {/* <TableCell>{user.miscExpenses}</TableCell>
                     <TableCell>{user.dailyTotals}</TableCell> */}
                     </TableRow>
@@ -85,9 +87,9 @@ const TourReport = ({ tourDetail, tourUserList }) => {
           <Typography variant="body1">Total Travel Expenses:</Typography>
           <Typography variant="body1">Total Owed to Employee:</Typography>
         </Grid> */}
-        
+
           <Grid item xs={12} container justifyContent="space-between">
-            <Typography variant="body1">Income(com): {tourUserList?.reduce((acc, el) => acc + el.sum, 0)}</Typography>
+            <Typography variant="body1">Income(com): {tourUserList?.reduce((acc, el) => acc + el?.payments.price, 0)}</Typography>
             {/* <Typography variant="body1">Income(com): {tourUserList.reduce((acc, el) => acc + el.sum, 0) - 100}</Typography> */}
           </Grid>
           <div style={{ overflow: "hidden", color: "white" }}>

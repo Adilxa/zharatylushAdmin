@@ -23,7 +23,6 @@ const TourUserTable = ({ email, startDate, endDate, amount, ...props }) => {
       <TableCell component="th" scope="row">
         {props.id}
       </TableCell>
-
       <TableCell scope="row">{email}</TableCell>
       <TableCell scope="row">{props?.country}</TableCell>
       <TableCell scope="row" align="left" style={{ paddingLeft: "50px" }}>{amount}</TableCell>
